@@ -7,9 +7,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class DotenvInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext context) {
-        Dotenv dotenv = Dotenv.load(); // loads .env from project root
-        dotenv.entries().forEach(entry ->
-                System.setProperty(entry.getKey(), entry.getValue())
-        );
+        Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMissing()
+                .load();
+        dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
     }
 }
