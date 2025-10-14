@@ -1,6 +1,5 @@
 package aau.sw.controller;
 
-import aau.sw.model.User;
 import aau.sw.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
