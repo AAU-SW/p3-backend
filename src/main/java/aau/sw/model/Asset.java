@@ -1,24 +1,45 @@
 package aau.sw.model;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
 
 @Document(collection = "assets")
 public class Asset {
+
     @Id
     private String id;
-    private String email;
-    private String encryptedPassword;
     private String name;
-    private String role;
+    private String registrationNumber;
+    private String status;
+    private String description;
+
+
+    @CreatedDate
+    private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
+    private Date deletedAt;
+
+    @DBRef
+    private User createdBy;
+
+    @DBRef
+    private User assignedTo;
 
     public Asset() {}
-    public Asset(String id, String email, String encryptedPassword, String name, String role) {
-        this.id = id;
-        this.email = email;
-        this.encryptedPassword = encryptedPassword;
+
+    public Asset(String name, String status, String description, String registrationNumber) {
         this.name = name;
-        this.role = role;
+        this.status = status;
+        this.description = description;
+        this.registrationNumber = registrationNumber;
     }
 
     public String getId() {
@@ -29,22 +50,6 @@ public class Asset {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
-
     public String getName() {
         return name;
     }
@@ -53,11 +58,67 @@ public class Asset {
         this.name = name;
     }
 
-    public String getRole() {
-        return role;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 }
