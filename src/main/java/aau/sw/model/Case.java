@@ -13,7 +13,6 @@ public class Case {
 
     @Id
     private String id;
-
     private String title;
     private String status;
     private String description;
