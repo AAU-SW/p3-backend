@@ -12,7 +12,7 @@ import java.util.Date;
 public class Case {
 
     @Id
-    private String id;
+    private String caseId;
 
     private String title;
     private String status;
