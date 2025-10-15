@@ -1,10 +1,7 @@
 package aau.sw.service;
-
 import aau.sw.model.User;
 import aau.sw.repository.UserRepository;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +10,9 @@ public class UserService {
     private final UserRepository repo;
     public UserService(UserRepository repo) { this.repo = repo; }
 
+    public User createUser(User user){
+        return repo.save(user);
+      }
 
     @Transactional
     public void updateUser(String id, String newName) {
