@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api/cases")
@@ -31,6 +33,16 @@ public class CaseController {
     public List<Case> getCases() {
         return caseRepository.findAll();
 
+    }
+    @PutMapping("/{id}")
+    public String updateCase(@PathVariable String id, @RequestBody String name) {
+        var entity = caseRepository.findById(id).orElse(null);
+        if (entity == null) {
+            return "Case not found";
+        }
+        entity.setDescription(name);
+        caseRepository.save(entity);
+        return "Case updated";
     }
 
     @DeleteMapping("/{id}")

@@ -29,5 +29,5 @@ public class UserController {
             user.setName(name);
             userRepository.save(user);
         });
-  }
+ }
 }
