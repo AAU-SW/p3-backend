@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    
+
     @Autowired
     private UserRepository userRepository;
 
     private final UserService svc;
-    public UserController(UserService svc) { this.svc = svc; }
+
+    public UserController(UserService svc) {
+        this.svc = svc;
+    }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user){
@@ -31,6 +34,15 @@ public class UserController {
     @GetMapping
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        if (!userRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
