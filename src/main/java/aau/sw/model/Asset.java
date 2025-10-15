@@ -30,9 +30,6 @@ public class Asset {
     @DBRef
     private User createdBy;
 
-    @DBRef
-    private User assignedTo;
-
     public Asset() {}
 
     public Asset(String name, String status, String description, String registrationNumber) {
@@ -114,11 +111,4 @@ public class Asset {
         this.createdBy = createdBy;
     }
 
-    public User getAssignedTo() {
-        return assignedTo;
-    }
-
-    public void setAssignedTo(User assignedTo) {
-        this.assignedTo = assignedTo;
-    }
 }
