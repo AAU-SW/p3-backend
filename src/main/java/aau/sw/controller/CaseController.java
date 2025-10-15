@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cases")
@@ -19,8 +20,11 @@ public class CaseController {
     @PostMapping
     public Case createCase(@RequestBody Case newCase) {
         return caseRepository.save(newCase);
+    }
 
     @GetMapping
+    public List<Case> getCases(){
+        return caseRepository.findAll();
 
     }
 }
