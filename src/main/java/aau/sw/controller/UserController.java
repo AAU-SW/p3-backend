@@ -45,14 +45,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public void updateUser(@PathVariable String id, @RequestBody String name) {
-        svc.updateUser(id, name);
-        userRepository.findById(id).ifPresent(user -> {
-            user.setName(name);
-            userRepository.save(user);
-        });
-    }
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable String id) {
         try {
