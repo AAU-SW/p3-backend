@@ -29,8 +29,26 @@ public class UserService {
         return repo.findAll();
     }
 
-    public User getById(String id) { return repo.findById(id).orElse(null); }
-    public User getByEmail(String email) { return repo.findByEmail(email); }
+    public User getById(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("ID cannot be null or blank");
+        }
+        var user = repo.findById(id);
+        if (user == null || user.isEmpty()) {
+            throw new IllegalArgumentException("User not found: " + id);
+        }
+        return user.get();
+    }
+    public User getByEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be null or blank");
+        }
+        var user = repo.findByEmail(email);
+        if (user == null || user.isEmpty()) {
+            throw new IllegalArgumentException("User not found with email: " + email);
+        }
+        return user.get();
+    }
 
 }
 
