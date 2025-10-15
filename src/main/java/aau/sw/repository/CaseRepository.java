@@ -1,4 +1,6 @@
 package aau.sw.repository;
 
-public class CaseRepository {
-}
+import aau.sw.model.Case;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface CaseRepository extends MongoRepository<Case, String> {}
