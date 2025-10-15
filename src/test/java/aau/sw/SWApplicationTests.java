@@ -7,6 +7,5 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @SpringBootTest
 class SWApplicationTests {
-    @Test
-    void contextLoads() { }
+    @Test void contextLoads() {}
 }
