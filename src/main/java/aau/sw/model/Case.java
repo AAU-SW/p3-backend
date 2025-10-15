@@ -43,11 +43,11 @@ public class Case {
     }
 
     public String getId() {
-        return id;
+        return caseId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.caseId = id;
     }
 
     public String getTitle() {
