@@ -1,5 +1,5 @@
 package aau.sw.controller;
-
+import aau.sw.model.Asset;
 import aau.sw.repository.AssetRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +21,9 @@ public class AssetController {
         }
         assetRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+
+    @PostMapping
+    public Asset createAsset(@RequestBody Asset newAsset) {
+        return assetRepository.save(newAsset);
     }
 }
