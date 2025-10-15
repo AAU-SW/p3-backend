@@ -12,7 +12,7 @@ import java.util.Date;
 public class Case {
 
     @Id
-    private String caseId;
+    private String id;
 
     private String title;
     private String status;
@@ -43,11 +43,11 @@ public class Case {
     }
 
     public String getId() {
-        return caseId;
+        return id;
     }
 
     public void setId(String id) {
-        this.caseId = id;
+        this.id = id;
     }
 
     public String getTitle() {
