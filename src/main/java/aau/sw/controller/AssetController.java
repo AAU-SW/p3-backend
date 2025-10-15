@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/assets")
 public class AssetController {
-
     @Autowired
     private AssetRepository assetRepository;
 
     @GetMapping
     public List<Asset> getAssets(){
         return assetRepository.findAll();
+
+    @PostMapping
+    public Asset createAsset(@RequestBody Asset newAsset) {
+        return assetRepository.save(newAsset);
     }
 }
