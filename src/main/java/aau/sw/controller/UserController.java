@@ -1,6 +1,5 @@
 package aau.sw.controller;
 
-import aau.sw.model.Case;
 import aau.sw.model.User;
 import aau.sw.repository.UserRepository;
 import aau.sw.service.UserService;
