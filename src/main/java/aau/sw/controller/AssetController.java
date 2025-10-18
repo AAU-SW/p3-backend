@@ -25,6 +25,14 @@ public class AssetController {
         return assetRepository.findAll();
     }
 
+    // read asset by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Asset> getAssetById(@PathVariable String id) {
+        return assetRepository.findById(id)
+                .map(asset -> ResponseEntity.ok().body(asset))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     // update asset
     @PutMapping("/{id}")
     public void updateAsset(@PathVariable String id, @RequestBody Asset updatedAsset) {
