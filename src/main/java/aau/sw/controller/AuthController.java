@@ -52,10 +52,20 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
-    authManager.authenticate(new UsernamePasswordAuthenticationToken(req.email(), req.password()));
-    String access = jwt.issue(req.email());
-    String refresh = jwt.issueRefresh(req.email());
-    return ResponseEntity.ok(Map.of("accessToken", access, "refreshToken", refresh));
+    System.err.println("Login attempt for: " + req.email());
+    
+    try {
+      authManager.authenticate(
+          new UsernamePasswordAuthenticationToken(req.email(), req.password())
+      );
+      String access = jwt.issue(req.email());
+      String refresh = jwt.issueRefresh(req.email());
+      return ResponseEntity.ok(Map.of("accessToken", access, "refreshToken", refresh));
+    } catch (Exception e) {
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                           .body(Map.of("error", e.getClass().getSimpleName(), "message", e.getMessage()));
+    }
   }
 
   @PostMapping("/refresh")
