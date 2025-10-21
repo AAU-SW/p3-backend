@@ -2,6 +2,8 @@ package aau.sw.controller;
 
 import aau.sw.security.JwtService;
 import jakarta.validation.Valid;
+import aau.sw.dto.LoginReq;
+import aau.sw.dto.RegisterReq;
 import aau.sw.model.User;
 import aau.sw.repository.UserRepository;
 
@@ -28,15 +30,6 @@ public class AuthController {
     this.jwt = jwt;
   }
 
-  public record RegisterReq(String email, String password, String name) {
-  }
-
-  public record LoginReq(String email, String password) {
-  }
-
-  public record TokenRes(String accessToken) {
-  }
-
   @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody RegisterReq req) {
     if (users.findByEmail(req.email()).isPresent()) {
@@ -53,7 +46,7 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
+  public ResponseEntity<Map<String, String>> login(@Valid @RequestBody LoginReq req) {
     authManager.authenticate(new UsernamePasswordAuthenticationToken(req.email(), req.password()));
     String access = jwt.issue(req.email());
     String refresh = jwt.issueRefresh(req.email());
