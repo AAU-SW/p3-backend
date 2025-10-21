@@ -34,6 +34,14 @@ public class CaseController {
         return caseRepository.findAll();
 
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Case> getCasebyId(@PathVariable String id) {
+        return caseRepository.findById(id)
+                .map(Case -> ResponseEntity.ok().body(Case))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PutMapping("/{id}")
     public String updateCase(@PathVariable String id, @RequestBody String name) {
         var entity = caseRepository.findById(id).orElse(null);
