@@ -32,7 +32,11 @@ public class Case {
     @DBRef
     private User assignedTo;
 
-    public Case() {}
+    @DBRef
+    private Asset assetId;
+
+    public Case() {
+    }
 
     public Case(String title, String status, String description, String location) {
         this.title = title;
