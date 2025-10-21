@@ -9,8 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         var saved = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
@@ -64,8 +64,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    
-  
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody String name) {
         try {
@@ -78,5 +77,12 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-  }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> me(Authentication auth) {
+        String email = auth.getName();
+        return ResponseEntity.ok(userRepository.findByEmail(email).orElseThrow());
+    }
+
 }
