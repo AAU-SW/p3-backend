@@ -35,7 +35,7 @@ public class SecurityConfig {
   SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwt) throws Exception {
     return http
         .cors(c -> {
-        }) // enable CORS within Spring Security
+        })
         .csrf(csrf -> csrf.disable())
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(ex -> ex
@@ -54,7 +54,7 @@ public class SecurityConfig {
     var cfg = new CorsConfiguration();
     cfg.setAllowedOrigins(List.of(
         "http://localhost:3000",
-        "https://p3-frontend-tu5tr.ondigitalocean.app" // no trailing slash
+        "https://p3-frontend-tu5tr.ondigitalocean.app"
     ));
     cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     cfg.setAllowedHeaders(List.of("*"));
