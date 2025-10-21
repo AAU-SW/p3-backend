@@ -1,6 +1,7 @@
 package aau.sw.controller;
 
 import aau.sw.security.JwtService;
+import jakarta.validation.Valid;
 import aau.sw.model.User;
 import aau.sw.repository.UserRepository;
 
@@ -37,14 +38,15 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<?> register(@RequestBody RegisterReq req) {
+  public ResponseEntity<?> register(@Valid @RequestBody RegisterReq req) {
     if (users.findByEmail(req.email()).isPresent()) {
       return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
     }
+
     var u = new User();
-    u.setEmail(req.email());
-    u.setEncryptedPassword(encoder.encode(req.password())); // uses your existing field
-    u.setName(req.name());
+    u.setEmail(req.email().trim().toLowerCase());
+    u.setEncryptedPassword(encoder.encode(req.password()));
+    u.setName(req.name().trim());
     u.setRole("admin");
     users.save(u);
     return ResponseEntity.status(HttpStatus.CREATED).build();
