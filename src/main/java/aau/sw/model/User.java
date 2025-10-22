@@ -1,18 +1,23 @@
 package aau.sw.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class User {
     @Id
     private String id;
+
+    @Indexed(unique = true)
     private String email;
+
     private String encryptedPassword;
     private String name;
     private String role;
 
     public User() {}
+
     public User(String id, String email, String encryptedPassword, String name, String role) {
         this.id = id;
         this.email = email;
