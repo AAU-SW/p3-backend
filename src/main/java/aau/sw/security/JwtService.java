@@ -37,12 +37,13 @@ public class JwtService {
         .compact();
   }
 
-  public String subject(String token) {
-    return Jwts.parser()
-        .verifyWith(Keys.hmacShaKeyFor(props.getSecret().getBytes(StandardCharsets.UTF_8)))
-        .build()
-        .parseSignedClaims(token)
-        .getPayload()
-        .getSubject();
-  }
+    public String subject(String token) {
+        return Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(props.getSecret().getBytes(StandardCharsets.UTF_8)))
+                .clockSkewSeconds(10)  // Allows minor differences in jwt tokens timings
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
 }
