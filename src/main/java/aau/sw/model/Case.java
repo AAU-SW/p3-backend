@@ -124,4 +124,12 @@ public class Case {
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
     }
+
+    public Asset getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Asset assetId) {
+        this.assetId = assetId;
+    }
 }
