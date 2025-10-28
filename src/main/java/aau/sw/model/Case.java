@@ -17,6 +17,7 @@ public class Case {
     private String status;
     private String description;
     private String location;
+    private String assignedTo; // Should be DBRef but does not work with current func
 
     @CreatedDate
     private Date createdAt;
@@ -117,11 +118,11 @@ public class Case {
         this.createdBy = createdBy;
     }
 
-    public User getAssignedTo() {
+    public String getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(User assignedTo) {
+    public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
     }
 
