@@ -31,9 +31,6 @@ public class Case {
     private User createdBy;
 
     @DBRef
-    private User assignedTo;
-
-    @DBRef
     private Asset assetId;
 
     public Case() {
