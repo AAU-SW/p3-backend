@@ -6,6 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class User {
+
+    public enum UserStatus {
+        AVAILABLE,
+        ON_LEAVE,
+        BUSY,
+    }
+
     @Id
     private String id;
 
@@ -16,14 +23,17 @@ public class User {
     private String name;
     private String role;
 
+    private UserStatus userStatus;
+
     public User() {}
 
-    public User(String id, String email, String encryptedPassword, String name, String role) {
+    public User(String id, String email, String encryptedPassword, String name, String role, UserStatus userStatus) {
         this.id = id;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.name = name;
         this.role = role;
+        this.userStatus = userStatus;
     }
 
     public String getId() {
@@ -64,5 +74,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 }
