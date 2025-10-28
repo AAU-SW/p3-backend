@@ -40,7 +40,6 @@ public class JwtService {
     public String subject(String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(props.getSecret().getBytes(StandardCharsets.UTF_8)))
-                .clockSkewSeconds(300)  // Allows minor differences in jwt tokens timings
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
