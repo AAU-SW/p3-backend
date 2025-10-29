@@ -30,7 +30,11 @@ public class Case {
     @DBRef
     private User createdBy;
 
-    public Case() {}
+    @DBRef
+    private Asset assetId;
+
+    public Case() {
+    }
 
     public Case(String title, String status, String description, String location) {
         this.title = title;
@@ -117,5 +121,13 @@ public class Case {
 
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public Asset getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Asset assetId) {
+        this.assetId = assetId;
     }
 }
