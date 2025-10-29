@@ -41,15 +41,6 @@ public class CustomerController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // update all customers
-    @PutMapping
-    public void updateCustomer(@RequestBody Customers updatedCustomer) {
-        customerRepository.findById(updatedCustomer.getId()).ifPresent(customer -> {
-            customer.setName(updatedCustomer.getName());
-            customerRepository.save(customer);
-        });
-    }
-
     // update customer by id
     @PutMapping("/{id}")
     public ResponseEntity<Customers> updateCustomer(@PathVariable String id, @RequestBody Customers updatedCustomer) {
