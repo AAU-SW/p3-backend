@@ -11,11 +11,16 @@ import java.util.Date;
 @Document(collection = "assets")
 public class Asset implements Auditable {
 
+    public enum Status {
+        ACTIVE,
+        CLOSED
+    }
+
     @Id
     private String id;
     private String name;
     private String registrationNumber;
-    private String status;
+    private Status status;
     private String description;
 
     @CreatedDate
@@ -29,9 +34,10 @@ public class Asset implements Auditable {
     @DBRef
     private User createdBy;
 
-    public Asset() {}
+    public Asset() {
+    }
 
-    public Asset(String name, String status, String description, String registrationNumber) {
+    public Asset(String name, Status status, String description, String registrationNumber) {
         this.name = name;
         this.status = status;
         this.description = description;
@@ -54,11 +60,11 @@ public class Asset implements Auditable {
         this.name = name;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
