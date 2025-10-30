@@ -1,7 +1,6 @@
 package aau.sw.controller;
 
 import aau.sw.dto.CaseReq;
-import aau.sw.dto.RegisterReq;
 import aau.sw.model.Case;
 import aau.sw.repository.CaseRepository;
 import jakarta.validation.Valid;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.web.bind.annotation.PutMapping;
 
