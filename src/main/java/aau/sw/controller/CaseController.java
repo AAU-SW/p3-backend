@@ -1,7 +1,11 @@
 package aau.sw.controller;
 
+import aau.sw.dto.CaseReq;
+import aau.sw.dto.RegisterReq;
 import aau.sw.model.Case;
 import aau.sw.repository.CaseRepository;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.web.bind.annotation.PutMapping;
-
 
 @RestController
 @RequestMapping("/api/cases")
@@ -27,6 +33,15 @@ public class CaseController {
     @PostMapping
     public Case createCase(@RequestBody Case newCase) {
         return caseRepository.save(newCase);
+    }
+
+    @PostMapping("/case")
+    public ResponseEntity<?> createCase(@Valid @RequestBody CaseReq req) {
+        var c = new Case();
+        c.setTitle(req.title());
+        c.setStatus(req.status());
+        caseRepository.save(c);
+        return ResponseEntity.status(HttpStatus.CREATED).body(c);
     }
 
     @GetMapping
