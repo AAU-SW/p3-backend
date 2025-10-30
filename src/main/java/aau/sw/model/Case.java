@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import aau.sw.model.Asset.Status;
+
 import java.util.Date;
 
 @Document(collection = "cases")
@@ -14,7 +16,7 @@ public class Case {
     @Id
     private String id;
     private String title;
-    private String status;
+    private Status status;
     private String description;
     private String location;
     private String assignedTo; // Should be DBRef but does not work with current func
@@ -36,7 +38,7 @@ public class Case {
     public Case() {
     }
 
-    public Case(String title, String status, String description, String location) {
+    public Case(String title, Status status, String description, String location) {
         this.title = title;
         this.status = status;
         this.description = description;
@@ -59,11 +61,11 @@ public class Case {
         this.title = title;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
