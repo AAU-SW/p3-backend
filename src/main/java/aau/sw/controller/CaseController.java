@@ -42,6 +42,12 @@ public class CaseController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/asset/{assetId}")
+    public List<Case> getCasesByAssetId(@PathVariable String assetId) {
+        return caseRepository.findByAssetId_Id(assetId);
+    }
+
+
     @PutMapping("/{id}")
     public String updateCase(@PathVariable String id, @RequestBody String name) {
         var entity = caseRepository.findById(id).orElse(null);
