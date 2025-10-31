@@ -19,7 +19,7 @@ public class Case {
     private String location;
 
     @DBRef
-    private User assignedTo; // Should be DBRef but does not work with current func
+    private User assignedTo;
 
     @CreatedDate
     private Date createdAt;
