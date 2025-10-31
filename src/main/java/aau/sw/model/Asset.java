@@ -34,6 +34,9 @@ public class Asset implements Auditable {
     @DBRef
     private User createdBy;
 
+    @DBRef
+    private Order orderRef;
+
     public Asset() {
     }
 
@@ -114,6 +117,14 @@ public class Asset implements Auditable {
 
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Order getOrderRef() {
+        return orderRef;
+    }
+
+    public void setOrderRef(Order orderRef) {
+        this.orderRef = orderRef;
     }
 
 }
