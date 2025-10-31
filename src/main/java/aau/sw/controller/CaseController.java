@@ -44,7 +44,7 @@ public class CaseController {
 
     @GetMapping("/asset/{assetId}")
     public List<Case> getCasesByAssetId(@PathVariable String assetId) {
-        return caseRepository.findByAssetId_Id(assetId);
+        return caseRepository.findByAssetId(assetId);
     }
 
 
