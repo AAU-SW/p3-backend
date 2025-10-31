@@ -2,10 +2,10 @@ package aau.sw.security;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,9 +18,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+
+  @Autowired
+  private CustomAuthEntryPoint customAuthEntryPoint;
 
   @Bean
   PasswordEncoder passwordEncoder() {
@@ -40,8 +45,18 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(ex -> ex
-            .authenticationEntryPoint((req, res, e) -> res.sendError(401))
-            .accessDeniedHandler((req, res, e) -> res.sendError(403)))
+            .authenticationEntryPoint(customAuthEntryPoint)
+            .accessDeniedHandler((req, res, e) -> {
+              res.setContentType("application/json");
+              res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+              String json = """
+                  {
+                    "error": "Forbidden",
+                    "message": "%s"
+                  }
+                  """.formatted(e.getMessage());
+              res.getWriter().write(json);
+             }))
         .authorizeHttpRequests(reg -> reg
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers("/api/auth/**", "/").permitAll()
