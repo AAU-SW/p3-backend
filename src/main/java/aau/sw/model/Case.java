@@ -35,6 +35,9 @@ public class Case {
     @DBRef
     private Asset assetId;
 
+    @DBRef
+    private Customers connectedCustomer;
+
     public Case() {
     }
 
@@ -131,5 +134,13 @@ public class Case {
 
     public void setAssetId(Asset assetId) {
         this.assetId = assetId;
+    }
+
+    public Customers getConnectedCustomer() {
+        return connectedCustomer;
+    }
+
+    public void setConnectedCustomer(Customers connectedCustomer) {
+        this.connectedCustomer = connectedCustomer;
     }
 }
