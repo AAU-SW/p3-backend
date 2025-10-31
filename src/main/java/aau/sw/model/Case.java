@@ -17,7 +17,9 @@ public class Case {
     private String status;
     private String description;
     private String location;
-    private String assignedTo; // Should be DBRef but does not work with current func
+
+    @DBRef
+    private User assignedTo;
 
     @CreatedDate
     private Date createdAt;
@@ -32,6 +34,9 @@ public class Case {
 
     @DBRef
     private Asset assetId;
+
+    @DBRef
+    private Customers connectedCustomer;
 
     public Case() {
     }
@@ -115,11 +120,11 @@ public class Case {
         this.createdBy = createdBy;
     }
 
-    public String getAssignedTo() {
+    public User getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(String assignedTo) {
+    public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
     }
 
@@ -129,5 +134,13 @@ public class Case {
 
     public void setAssetId(Asset assetId) {
         this.assetId = assetId;
+    }
+
+    public Customers getConnectedCustomer() {
+        return connectedCustomer;
+    }
+
+    public void setConnectedCustomer(Customers connectedCustomer) {
+        this.connectedCustomer = connectedCustomer;
     }
 }

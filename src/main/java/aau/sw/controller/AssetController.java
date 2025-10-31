@@ -3,6 +3,7 @@ import aau.sw.model.Asset;
 import aau.sw.dto.AssetReq;
 import aau.sw.repository.AssetRepository;
 import jakarta.validation.Valid;
+import aau.sw.service.AssetService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,20 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/api/assets")
 public class AssetController {
+
+    private final AssetService assetService;
+
     @Autowired
     private AssetRepository assetRepository;
   
+    public AssetController(AssetService assetService) {
+        this.assetService = assetService;
+    }
+
     // create asset
     @PostMapping
     public Asset createAsset(@RequestBody Asset newAsset) {
-        return assetRepository.save(newAsset);
+        return assetService.createAsset(newAsset);
     }
 
     // create asset with validation
