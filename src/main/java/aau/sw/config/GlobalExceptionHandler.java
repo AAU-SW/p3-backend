@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     // Optional: Catch all other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAll(Exception ex) {
-        log.error("Unexpected error ", ex);
+        log.error("Unexpected error: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("error", "Something went wrong"));
     }
