@@ -1,7 +1,9 @@
 package aau.sw.controller;
 
+import aau.sw.dto.UserReq;
 import aau.sw.model.User;
 import aau.sw.service.UserService;
+import jakarta.validation.Valid;
 import aau.sw.repository.UserRepository;
 
 import java.util.List;
@@ -85,4 +87,12 @@ public class UserController {
         return ResponseEntity.ok(userRepository.findByEmail(email).orElseThrow());
     }
 
+    // create user with validation
+    @PostMapping("/user")
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserReq req) {
+        var user = new User();
+        user.setName(req.name());
+        userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
 }
