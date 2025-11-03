@@ -3,7 +3,7 @@ package aau.sw.controller;
 import aau.sw.model.Asset;
 import aau.sw.repository.AssetRepository;
 import aau.sw.service.AssetService;
-import aau.sw.service.LoggingService;
+import aau.sw.aspect.LogExecution;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,38 +15,33 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/api/assets")
 public class AssetController {
 
-    private final LoggingService loggingService;
     private final AssetService assetService;
 
     @Autowired
     private AssetRepository assetRepository;
-  
-    public AssetController(LoggingService loggingService, AssetService assetService) {
+
+    public AssetController(AssetService assetService) {
         this.assetService = assetService;
-        this.loggingService = loggingService;
     }
 
     // create asset
     @PostMapping
+    @LogExecution("Created new asset")
     public ResponseEntity<Asset> createAsset(@RequestBody Asset newAsset) {
-        return loggingService.logExecution(
-            ()-> {
-           Asset created = assetService.createAsset(newAsset);
-           return ResponseEntity.status(HttpStatus.CREATED).
-                        body(created);
-                    },
-                    "Created new asset: " + newAsset.getName()
-           ); 
+        Asset created = assetService.createAsset(newAsset);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // read asset
+    // read all assets
     @GetMapping
+    @LogExecution("Fetch all asset")
     public List<Asset> getAssets() {
         return assetRepository.findAll();
     }
 
     // read asset by id
     @GetMapping("/{id}")
+    @LogExecution("Fetched asset by ID")
     public ResponseEntity<Asset> getAssetById(@PathVariable String id) {
         return assetRepository.findById(id)
                 .map(asset -> ResponseEntity.ok().body(asset))
@@ -55,10 +50,9 @@ public class AssetController {
 
     // update asset
     @PutMapping("/{id}")
+    @LogExecution("Updated asset")
     public ResponseEntity<Asset> updateAsset(@PathVariable String id, @RequestBody Asset updatedAsset) {
-        return loggingService.logExecution(
-            () -> {
-                return assetRepository.findById(id)
+        return assetRepository.findById(id)
                 .map(asset -> {
                     asset.setName(updatedAsset.getName());
                     asset.setDescription(updatedAsset.getDescription());
@@ -68,23 +62,16 @@ public class AssetController {
                     return ResponseEntity.ok(asset);
                 })
                 .orElse(ResponseEntity.notFound().build());
-            },
-            "Update asset whit ID: " + id
-        );
     }
 
     // delete asset
     @DeleteMapping("/{id}")
+    @LogExecution("Deleted asset")
     public ResponseEntity<Void> deleteAsset(@PathVariable String id) {
-        return loggingService.logExecution(
-            () -> {
-                if (!assetRepository.existsById(id)) {
-                    return ResponseEntity.notFound().build();
-                }
-                assetRepository.deleteById(id);
-                return ResponseEntity.noContent().build();
-            },
-            "Deleted asset whit ID " + id
-        );
+        if (!assetRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        assetRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
