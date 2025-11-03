@@ -1,15 +1,15 @@
 package aau.sw.model;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 @Document(collection = "assets")
-public class Asset {
+public class Asset implements Auditable {
 
     public enum Status {
         ACTIVE,
@@ -33,6 +33,9 @@ public class Asset {
 
     @DBRef
     private User createdBy;
+
+    @DBRef
+    private Order orderRef;
 
     public Asset() {
     }
@@ -114,6 +117,14 @@ public class Asset {
 
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Order getOrderRef() {
+        return orderRef;
+    }
+
+    public void setOrderRef(Order orderRef) {
+        this.orderRef = orderRef;
     }
 
 }
