@@ -10,11 +10,15 @@ import java.util.Date;
 
 @Document(collection = "cases")
 public class Case {
+    public enum Status {
+        ACTIVE,
+        CLOSED
+    }
 
     @Id
     private String id;
     private String title;
-    private String status;
+    private Status status;
     private String description;
     private String location;
 
@@ -41,7 +45,7 @@ public class Case {
     public Case() {
     }
 
-    public Case(String title, String status, String description, String location) {
+    public Case(String title, Status status, String description, String location) {
         this.title = title;
         this.status = status;
         this.description = description;
@@ -64,11 +68,11 @@ public class Case {
         this.title = title;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
