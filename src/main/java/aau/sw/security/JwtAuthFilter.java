@@ -24,26 +24,31 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
   public JwtAuthFilter(JwtService jwt, UserDetailsService uds, CustomAuthEntryPoint customAuthEntryPoint) {
     this.jwt = jwt; this.uds = uds; this.customAuthEntryPoint = customAuthEntryPoint;
-  }
+  };
 
   @Override
   protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
       throws ServletException, IOException {
+
     String header = req.getHeader(HttpHeaders.AUTHORIZATION);
-    if (header != null && header.startsWith("Bearer ")) {
-      String token = header.substring(7);
-      try {
+
+    try {
+      if (header != null && header.startsWith("Bearer ")) {
+        String token = header.substring(7);
         String email = jwt.subject(token);
         UserDetails user = uds.loadUserByUsername(email);
         var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
         SecurityContextHolder.getContext().setAuthentication(auth);
-      } catch (ExpiredJwtException ex) {
-        String msg = ex instanceof ExpiredJwtException ? "Token expired" : "Invalid token";
-          customAuthEntryPoint.commence(req, res, new AuthenticationException(msg, ex) {} );
-          return;
       }
+      chain.doFilter(req, res);
+    } catch (ExpiredJwtException ex) {
+      SecurityContextHolder.clearContext();
+      customAuthEntryPoint.commence(req, res, new AuthenticationException("Token expired", ex) {});
+    } catch (Exception ex) {
+      SecurityContextHolder.clearContext();
+      customAuthEntryPoint.commence(req, res, new AuthenticationException("Invalid token", ex) {});
     }
-    chain.doFilter(req, res);
   }
+
 }
