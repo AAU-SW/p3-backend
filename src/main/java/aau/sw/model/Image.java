@@ -11,7 +11,10 @@ public class Image {
 
     private String fileExtension;
 
-    private String assetId; // reference to the asset this image belongs to
+    // reference to the asset/case this image belongs to
+    private String connectedAssetId;
+    private String connectedCaseId;
+
 
     public String getId() {
         return id;
@@ -21,19 +24,27 @@ public class Image {
         this.id = id;
     }
 
-    public String getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(String assetId) {
-        this.assetId = assetId;
-    }
-
     public String getFileExtension() {
         return fileExtension;
     }
 
     public void setFileExtension(String fileExtension) {
         this.fileExtension = fileExtension;
+    }
+
+    public String getConnectedAssetId() {
+        return connectedAssetId;
+    }
+
+    public void setConnectedAssetId(String connectedAssetId) {
+        this.connectedAssetId = connectedAssetId;
+    }
+
+    public String getConnectedCaseId() {
+        return connectedCaseId;
+    }
+
+    public void setConnectedCaseId(String connectedCaseId) {
+        this.connectedCaseId = connectedCaseId;
     }
 }
