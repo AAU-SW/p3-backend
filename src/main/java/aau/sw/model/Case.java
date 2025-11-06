@@ -11,7 +11,7 @@ import aau.sw.model.Asset.Status;
 import java.util.Date;
 
 @Document(collection = "cases")
-public class Case {
+public class Case implements Auditable {
 
     @Id
     private String id;

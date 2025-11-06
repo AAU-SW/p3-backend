@@ -1,30 +1,48 @@
 package aau.sw.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import aau.sw.aspect.LogExecution;
 import aau.sw.dto.CaseReq;
 import aau.sw.model.Case;
 import aau.sw.repository.CaseRepository;
+import aau.sw.service.CaseService;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cases")
 public class CaseController {
 
+    private final CaseService caseService;
+
+    public CaseController(CaseService caseService){
+        this.caseService = caseService;
+    }
+
     @Autowired
     private CaseRepository caseRepository;
 
+
     @PostMapping
-    public Case createCase(@RequestBody Case newCase) {
-        return caseRepository.save(newCase);
+    @LogExecution("Created new case")
+    public ResponseEntity<Case> createCase(@RequestBody Case newCase) {
+        Case created = caseService.createCase(newCase);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PostMapping("/case")
@@ -57,6 +75,7 @@ public class CaseController {
     }
 
     @PutMapping("/{id}")
+    @LogExecution("Updated case: ")
     public String updateCase(@PathVariable String id, @RequestBody String name) {
         var entity = caseRepository.findById(id).orElse(null);
         if (entity == null) {
@@ -68,6 +87,7 @@ public class CaseController {
     }
 
     @DeleteMapping("/{id}")
+    @LogExecution("Deleted case:")
     public ResponseEntity<Void> deleteCases(@PathVariable String id) {
         if (!caseRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
