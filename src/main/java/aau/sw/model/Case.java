@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Document(collection = "cases")
-public class Case {
+public class Case implements Auditable {
 
     @Id
     private String id;

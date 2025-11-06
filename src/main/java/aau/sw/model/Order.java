@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "orders")
-public class Order {
+public class Order implements Auditable {
 
     @Id
     private String id;
@@ -13,6 +13,9 @@ public class Order {
 
     @DBRef
     private Customers connectedCustomer;
+
+    @DBRef
+    private User createdBy;
 
     public Order(){
     }
@@ -46,5 +49,12 @@ public class Order {
         this.connectedCustomer = connectedCustomer;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 
 }
