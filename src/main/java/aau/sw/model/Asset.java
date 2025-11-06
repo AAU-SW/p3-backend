@@ -23,6 +23,9 @@ public class Asset implements Auditable {
     private Status status;
     private String description;
 
+    @DBRef
+    private Image profilePicture;
+
     @CreatedDate
     private Date createdAt;
 
@@ -40,11 +43,12 @@ public class Asset implements Auditable {
     public Asset() {
     }
 
-    public Asset(String name, Status status, String description, String registrationNumber) {
+    public Asset(String name, Status status, String description, String registrationNumber, Image profilePicture) {
         this.name = name;
         this.status = status;
         this.description = description;
         this.registrationNumber = registrationNumber;
+        this.profilePicture = profilePicture;
     }
 
     public String getId() {
@@ -125,6 +129,14 @@ public class Asset implements Auditable {
 
     public void setOrderRef(Order orderRef) {
         this.orderRef = orderRef;
+    }
+
+    public Image getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(Image profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
 }
