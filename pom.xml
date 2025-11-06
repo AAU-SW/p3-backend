@@ -92,11 +92,12 @@
             <artifactId>s3</artifactId>
             <version>2.22.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-    </dependencies>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -105,4 +106,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
