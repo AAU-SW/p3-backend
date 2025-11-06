@@ -89,7 +89,7 @@ public class UserController {
 
     // create user with validation
     @PostMapping("/user")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserReq req) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserReq req) {
         var user = new User();
         user.setName(req.name());
         userRepository.save(user);
