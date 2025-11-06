@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Service
 public class AssetService {
-    private final AssetRepository assetRepository ;
+    private final AssetRepository assetRepository;
     private final AuditableService auditableService;
     private final ImageRepository imageRepository;
     private final FileService fileService;

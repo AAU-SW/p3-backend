@@ -4,6 +4,9 @@ import aau.sw.model.Asset;
 import aau.sw.repository.AssetRepository;
 import aau.sw.service.AssetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import aau.sw.aspect.LogExecution;
+
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,6 +60,8 @@ public class AssetController {
 
 
     // read asset
+
+    // read all assets
     @GetMapping
     public List<Asset> getAssets() {
         return assetRepository.findAll();
@@ -64,6 +69,7 @@ public class AssetController {
 
     // read asset by id
     @GetMapping("/{id}")
+    @LogExecution("Fetched asset by ID")
     public ResponseEntity<Asset> getAssetById(@PathVariable String id) {
         return assetRepository.findById(id)
                 .map(asset -> ResponseEntity.ok().body(asset))
@@ -72,18 +78,23 @@ public class AssetController {
 
     // update asset
     @PutMapping("/{id}")
-    public void updateAsset(@PathVariable String id, @RequestBody Asset updatedAsset) {
-        assetRepository.findById(id).ifPresent(asset -> {
-            asset.setName(updatedAsset.getName());
-            asset.setDescription(updatedAsset.getDescription());
-            asset.setStatus(updatedAsset.getStatus());
-            asset.setRegistrationNumber(updatedAsset.getRegistrationNumber());
-            assetRepository.save(asset);
-        });
+    @LogExecution("Updated asset")
+    public ResponseEntity<Asset> updateAsset(@PathVariable String id, @RequestBody Asset updatedAsset) {
+        return assetRepository.findById(id)
+                .map(asset -> {
+                    asset.setName(updatedAsset.getName());
+                    asset.setDescription(updatedAsset.getDescription());
+                    asset.setStatus(updatedAsset.getStatus());
+                    asset.setRegistrationNumber(updatedAsset.getRegistrationNumber());
+                    assetRepository.save(asset);
+                    return ResponseEntity.ok(asset);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // delete asset
     @DeleteMapping("/{id}")
+    @LogExecution("Deleted asset")
     public ResponseEntity<Void> deleteAsset(@PathVariable String id) {
         if (!assetRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
