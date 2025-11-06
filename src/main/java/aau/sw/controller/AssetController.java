@@ -58,11 +58,9 @@ public class AssetController {
         }
     }
 
-
-    // read asset
-
     // read all assets
     @GetMapping
+    @LogExecution("Fetch all asset")
     public List<Asset> getAssets() {
         return assetRepository.findAll();
     }
