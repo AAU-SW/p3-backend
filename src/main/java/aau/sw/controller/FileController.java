@@ -19,8 +19,6 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    // curl -X POST http://localhost:8080/api/files/upload -H "Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtYXRoYXZzMDgxMEBnbWFpbC5jb20iLCJpYXQiOjE3NjIyOTUxNDMsImV4cCI6MTc2MjI5NTc0M30.3E2LI9vwubx_P2DRnGqpdFLmQm3f6IADr02V9Y8A0AC-GEoXwi1yoStYX48RV2nf" -F "file=@/Users/mathiass/Desktop/test.png"
-
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
@@ -36,8 +34,6 @@ public class FileController {
                     .body("Failed to upload file: " + e.getMessage());
         }
     }
-
-    // curl -H "Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJtYXRoYXZzMDgxMEBnbWFpbC5jb20iLCJpYXQiOjE3NjIyOTc0ODMsImV4cCI6MTc2MjI5ODA4M30.uZ4XqjMECIVV50JMoTGVqrb0hXQ08WsM1tGJ0CVRFwUNQxOoiEdclfDG_QNvFohZ" "http://localhost:8080/api/files/url?filename=test.png"
 
     @GetMapping("/url")
     public ResponseEntity<String> getFileUrl(@RequestParam("filename") String filename) {
