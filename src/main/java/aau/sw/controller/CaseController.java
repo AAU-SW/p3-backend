@@ -28,7 +28,7 @@ public class CaseController {
     }
 
     @PostMapping("/case")
-    public ResponseEntity<?> createCase(@Valid @RequestBody CaseReq req) {
+    public ResponseEntity<Case> createCase(@Valid @RequestBody CaseReq req) {
         var c = new Case();
         c.setTitle(req.title());
         c.setStatus(req.status());
