@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AssetService {
-    private final AssetRepository assetRepository ;
+    private final AssetRepository assetRepository;
     private final AuditableService auditableService;
 
     public AssetService(AssetRepository assetRepository, AuditableService auditableService) { 
