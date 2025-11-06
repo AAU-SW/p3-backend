@@ -1,6 +1,7 @@
 package aau.sw.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "images")
@@ -12,7 +13,9 @@ public class Image {
     private String fileExtension;
 
     // reference to the asset/case this image belongs to
+    @DBRef
     private String connectedAssetId;
+    @DBRef
     private String connectedCaseId;
 
 

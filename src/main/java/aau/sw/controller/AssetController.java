@@ -31,7 +31,7 @@ public class AssetController {
 
     // create asset
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createAssetJson(@RequestBody Asset asset) {
+    public ResponseEntity<Asset> createAssetJson(@RequestBody Asset asset) {
         Asset savedAsset = assetService.createAsset(asset);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAsset);
     }
@@ -51,7 +51,7 @@ public class AssetController {
             return ResponseEntity.status(HttpStatus.CREATED).body(savedAsset);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to create asset: " + e.getMessage());
+                    .body(e.getMessage());
         }
     }
 
