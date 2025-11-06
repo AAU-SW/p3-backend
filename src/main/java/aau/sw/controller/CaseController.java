@@ -31,19 +31,12 @@ public class CaseController {
 
 
     @PostMapping
-    @LogExecution("Created new case")
-    public ResponseEntity<Case> createCase(@RequestBody Case newCase) {
-        Case created = caseService.createCase(newCase);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-    }
-
-    @PostMapping("/case")
     public ResponseEntity<Case> createCase(@Valid @RequestBody CaseReq req) {
         var c = new Case();
         c.setTitle(req.title());
         c.setStatus(req.status());
-        caseRepository.save(c);
-        return ResponseEntity.status(HttpStatus.CREATED).body(c);
+        Case created = caseService.createCase(c);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
