@@ -33,7 +33,7 @@ public class AssetController {
 
     // create asset with validation
     @PostMapping("/validated")
-    public ResponseEntity<?> createAsset(@Valid @RequestBody AssetReq req) {
+    public ResponseEntity<Asset> createAsset(@Valid @RequestBody AssetReq req) {
         var asset = new Asset();
         asset.setName(req.name());
         asset.setStatus(req.status());
