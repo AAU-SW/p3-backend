@@ -42,20 +42,20 @@ public class FileService {
         this.doSpaceRegion = doSpaceRegion;
     }
 
-    @Value("${do.space.bucket}")
+    @Value("${DO_SPACE_BUCKET}")
     private String bucketName;
 
-    @Value("${do.space.region}")
-    private String doSpaceRegion;
-
-    @Value("${do.space.key}")
+    @Value("${DO_SPACE_KEY}")
     private String doSpaceKey;
 
-    @Value("${do.space.secret}")
+    @Value("${DO_SPACE_SECRET}")
     private String doSpaceSecret;
 
-    @Value("${do.space.endpoint}")
+    @Value("${DO_SPACE_ENDPOINT}")
     private String doSpaceEndpoint;
+
+    @Value("${DO_SPACE_REGION}")
+    private String doSpaceRegion;
 
     public void putObject(byte[] data, String bucketName, String objectKey) {
         try {
