@@ -1,17 +1,20 @@
 package aau.sw.controller;
 
-import aau.sw.aspect.LogExecution;
+
+import aau.sw.dto.CaseReq;
 import aau.sw.model.Case;
 import aau.sw.repository.CaseRepository;
-import aau.sw.service.CaseService;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import aau.sw.aspect.LogExecution;
+import aau.sw.service.CaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/cases")
@@ -28,12 +31,19 @@ public class CaseController {
 
 
     @PostMapping
-    @LogExecution("Created new case")
-    public ResponseEntity<Case> createCase(@RequestBody Case newCase) {
-        Case created = caseService.createCase(newCase);
+    public ResponseEntity<Case> createCase(@Valid @RequestBody CaseReq req) {
+        var c = new Case();
+        c.setTitle(req.title());
+        c.setStatus(req.status());
+        Case created = caseService.createCase(c);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    @GetMapping
+    public List<Case> getCases() {
+        return caseRepository.findAll();
+
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Case> getCasebyId(@PathVariable String id) {
