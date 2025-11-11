@@ -1,7 +1,9 @@
 package aau.sw.controller;
 
 import aau.sw.model.Asset;
+import aau.sw.dto.AssetReq;
 import aau.sw.repository.AssetRepository;
+import jakarta.validation.Valid;
 import aau.sw.service.AssetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import aau.sw.aspect.LogExecution;
@@ -31,6 +33,14 @@ public class AssetController {
         this.objectMapper = objectMapper;
     }
 
+    @PostMapping
+    public ResponseEntity<Asset> createAsset(@Valid @RequestBody AssetReq req) {
+        Asset newAsset = new Asset();
+        newAsset.setName(req.name());
+        newAsset.setStatus(req.status());
+        newAsset.setRegistrationNumber(req.registrationNumber());
+        Asset created = assetService.createAsset(newAsset);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     // create asset
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Asset> createAssetJson(@RequestBody Asset asset) {
@@ -57,7 +67,6 @@ public class AssetController {
         }
     }
 
-    // read all assets
     @GetMapping
     @LogExecution("Fetch all asset")
     public List<Asset> getAssets() {
