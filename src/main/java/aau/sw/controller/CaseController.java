@@ -2,14 +2,18 @@ package aau.sw.controller;
 
 import aau.sw.aspect.LogExecution;
 import aau.sw.model.Case;
+import aau.sw.model.Comment;
 import aau.sw.repository.CaseRepository;
+import aau.sw.service.AuditableService;
 import aau.sw.service.CaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,6 +22,9 @@ import java.util.List;
 public class CaseController {
 
     private final CaseService caseService;
+
+    @Autowired
+    private AuditableService auditableService;
 
     public CaseController(CaseService caseService){
         this.caseService = caseService;
@@ -70,5 +77,21 @@ public class CaseController {
         }
         caseRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/comment")
+    @LogExecution("Added comment to case: ")
+    public ResponseEntity<String> addComment(@PathVariable String id, @RequestBody Comment newComment) {
+        var entity = caseRepository.findById(id).orElse(null);
+        if (entity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Case not found");
+        }
+        newComment.setCreatedAt(new Date());
+        auditableService.setCreatedBy(newComment);
+        entity.getComments().add(newComment);
+
+        caseRepository.save(entity);
+
+        return ResponseEntity.ok("Comment added successfully");
     }
 }

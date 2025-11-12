@@ -6,7 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "cases")
 
@@ -22,6 +24,7 @@ public class Case implements Auditable {
     private Status status;
     private String description;
     private String location;
+    private List<Comment> comments = new ArrayList<>();
 
     @DBRef
     private User assignedTo;
@@ -147,5 +150,13 @@ public class Case implements Auditable {
 
     public void setConnectedCustomer(Customers connectedCustomer) {
         this.connectedCustomer = connectedCustomer;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
