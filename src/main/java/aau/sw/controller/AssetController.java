@@ -1,5 +1,6 @@
 package aau.sw.controller;
 
+import java.io.IOException;
 import aau.sw.model.Asset;
 import aau.sw.repository.AssetRepository;
 import aau.sw.service.AssetService;
@@ -7,14 +8,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import aau.sw.aspect.LogExecution;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import aau.sw.aspect.LogExecution;
+import aau.sw.model.Asset;
+import aau.sw.repository.AssetRepository;
+import aau.sw.service.AssetService;
 
 @RestController
 @RequestMapping("/api/assets")
@@ -34,12 +49,14 @@ public class AssetController {
 
     // create asset
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @LogExecution("Created asset") 
     public ResponseEntity<Asset> createAssetJson(@RequestBody Asset asset) {
         Asset savedAsset = assetService.createAsset(asset);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAsset);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @LogExecution("Created asset with multipart data: ")
     public ResponseEntity<?> createAssetMultipart(
             @RequestPart("asset") String assetJson,
             @RequestPart(value = "image", required = false) MultipartFile image) {

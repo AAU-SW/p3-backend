@@ -22,17 +22,21 @@ public class User {
     private String encryptedPassword;
     private String name;
     private String role;
+    private String title;
+    private String phoneNumber;
 
     private UserStatus userStatus;
 
     public User() {}
 
-    public User(String id, String email, String encryptedPassword, String name, String role, UserStatus userStatus) {
+    public User(String id, String email, String encryptedPassword, String name, String role, String title, String phoneNumber, UserStatus userStatus) {
         this.id = id;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.name = name;
         this.role = role;
+        this.title = title;
+        this.phoneNumber = phoneNumber;
         this.userStatus = userStatus;
     }
 
@@ -82,5 +86,21 @@ public class User {
 
     public void setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
