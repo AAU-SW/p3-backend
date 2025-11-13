@@ -4,6 +4,7 @@ import aau.sw.aspect.LogExecution;
 import aau.sw.model.Case;
 import aau.sw.model.Image;
 import aau.sw.repository.CaseRepository;
+import aau.sw.repository.ImageRepository;
 import aau.sw.service.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ import java.util.List;
 public class CaseController {
 
     private final CaseService caseService;
+    @Autowired
+    private ImageRepository imageRepository;
 
     public CaseController(CaseService caseService){
         this.caseService = caseService;
@@ -119,5 +122,9 @@ public class CaseController {
         }
     }
 
-
+    @GetMapping("/files")
+    @LogExecution("Fetched file:")
+    public List<Image> getAllCaseFiles(@RequestParam(required = true) Case caseId) {
+        return imageRepository.findByConnectedCaseId(caseId);
+    }
 }
