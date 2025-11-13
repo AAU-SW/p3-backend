@@ -1,22 +1,29 @@
 package aau.sw.model;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
 
 @Document(collection = "images")
 public class Image {
 
     @Id
-    private String id; // Mongo ObjectId
+    private String id;
 
     private String fileExtension;
+    private String fileTitle;
+
+    @CreatedDate
+    private Date createdAt;
 
     // reference to the asset/case this image belongs to
     @DBRef
     private String connectedAssetId;
     @DBRef
-    private String connectedCaseId;
+    private Case connectedCaseId;
 
 
     public String getId() {
@@ -43,11 +50,27 @@ public class Image {
         this.connectedAssetId = connectedAssetId;
     }
 
-    public String getConnectedCaseId() {
+    public Case getConnectedCaseId() {
         return connectedCaseId;
     }
 
-    public void setConnectedCaseId(String connectedCaseId) {
+    public void setConnectedCaseId(Case connectedCaseId) {
         this.connectedCaseId = connectedCaseId;
+    }
+
+    public String getFileTitle() {
+        return fileTitle;
+    }
+
+    public void setFileTitle(String fileTitle) {
+        this.fileTitle = fileTitle;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
