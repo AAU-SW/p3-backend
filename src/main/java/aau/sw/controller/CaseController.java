@@ -9,7 +9,6 @@ import aau.sw.service.AuditableService;
 import aau.sw.repository.ImageRepository;
 import aau.sw.service.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
