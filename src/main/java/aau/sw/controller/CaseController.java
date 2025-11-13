@@ -125,9 +125,6 @@ public class CaseController {
     @GetMapping("/files")
     @LogExecution("Fetched file:")
     public List<Image> getAllCaseFiles(@RequestParam(required = true) Case caseId) {
-        if (caseId != null) {
-            return imageRepository.findByConnectedCaseId(caseId);
-        }
-        return null;
+        return imageRepository.findByConnectedCaseId(caseId);
     }
 }
