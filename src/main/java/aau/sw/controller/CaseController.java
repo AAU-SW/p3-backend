@@ -2,14 +2,17 @@ package aau.sw.controller;
 
 import aau.sw.aspect.LogExecution;
 import aau.sw.model.Case;
+import aau.sw.model.Image;
 import aau.sw.repository.CaseRepository;
 import aau.sw.service.CaseService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -25,6 +28,15 @@ public class CaseController {
 
     @Autowired
     private CaseRepository caseRepository;
+
+    private static final List<String> ALLOWED_CONTENT_TYPES = Arrays.asList(
+            "image/jpeg",
+            "image/jpg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+            "application/pdf"
+    );
 
 
     @PostMapping
@@ -71,4 +83,41 @@ public class CaseController {
         caseRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{caseId}/images")
+    public ResponseEntity<?> uploadFileToCase(
+            @PathVariable String caseId,
+            @RequestParam("file") MultipartFile file) {
+
+        try {
+            // Validate file
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("File is empty");
+            }
+
+            // Validate file type
+            String contentType = file.getContentType();
+            if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase())) {
+                return ResponseEntity.badRequest()
+                        .body("File must be an image (JPEG, PNG, GIF, WebP) or PDF");
+            }
+
+            // Find the case
+            Case existingCase = caseRepository.findById(caseId)
+                    .orElseThrow(() -> new RuntimeException("Case not found with id: " + caseId));
+
+            // Upload image/file
+            Image uploadedImage = caseService.uploadFileToCase(existingCase, file);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(uploadedImage);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to upload file: " + e.getMessage());
+        }
+    }
+
+
 }
