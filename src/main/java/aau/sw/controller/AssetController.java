@@ -35,7 +35,6 @@ public class AssetController {
     @Autowired
     private AssetRepository assetRepository;
 
-
     public AssetController(AssetService assetService, ObjectMapper objectMapper) {
         this.assetService = assetService;
         this.objectMapper = objectMapper;
@@ -83,6 +82,16 @@ public class AssetController {
         return assetRepository.findById(id)
                 .map(asset -> ResponseEntity.ok().body(asset))
                 .orElse(ResponseEntity.notFound().build());
+    }
+    // read asset by Order id
+    @GetMapping("/order/{id}")
+    @LogExecution("Fetched asset by order ID")
+    public ResponseEntity<List<Asset>> getAssetByOrderId(@PathVariable String id) {
+        List<Asset> assets = assetRepository.findByOrderRef_Id(id);
+        if (assets.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(assets);
     }
 
     // update asset
