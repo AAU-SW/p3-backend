@@ -2,6 +2,7 @@ name: CI
 
 on:
   pull_request:
+    branches: [ "**" ]
   push:
     branches: [ main ]
 
@@ -20,6 +21,6 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Verify build (no tests)
-        run: mvn clean verify -DskipTests
+      - name: Verify build and run tests
+        run: mvn clean verify
 
