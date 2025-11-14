@@ -1,12 +1,6 @@
 package aau.sw.controller;
 
 import java.io.IOException;
-import aau.sw.model.Asset;
-import aau.sw.repository.AssetRepository;
-import aau.sw.service.AssetService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import aau.sw.aspect.LogExecution;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
