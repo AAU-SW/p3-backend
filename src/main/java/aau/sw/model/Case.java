@@ -43,9 +43,6 @@ public class Case implements Auditable {
     @DBRef
     private Asset assetId;
 
-    @DBRef
-    private Customers connectedCustomer;
-
     public Case() {
     }
 
@@ -142,14 +139,6 @@ public class Case implements Auditable {
 
     public void setAssetId(Asset assetId) {
         this.assetId = assetId;
-    }
-
-    public Customers getConnectedCustomer() {
-        return connectedCustomer;
-    }
-
-    public void setConnectedCustomer(Customers connectedCustomer) {
-        this.connectedCustomer = connectedCustomer;
     }
 
     public List<Comment> getComments() {
