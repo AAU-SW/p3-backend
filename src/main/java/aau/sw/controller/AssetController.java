@@ -21,9 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import aau.sw.aspect.LogExecution;
+import aau.sw.dto.AssetDto;
 import aau.sw.model.Asset;
 import aau.sw.repository.AssetRepository;
 import aau.sw.service.AssetService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/assets")
@@ -43,8 +45,9 @@ public class AssetController {
     // create asset
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @LogExecution("Created asset") 
-    public ResponseEntity<Asset> createAssetJson(@RequestBody Asset asset) {
-        Asset savedAsset = assetService.createAsset(asset);
+    public ResponseEntity<Asset> createAssetJson(@Valid @RequestBody AssetDto asset) {
+        Asset newAsset = new Asset(asset);
+        Asset savedAsset = assetService.createAsset(newAsset);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAsset);
     }
 
