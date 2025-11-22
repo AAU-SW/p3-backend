@@ -10,6 +10,9 @@ public class Order implements Auditable {
     @Id
     private String id;
     private String orderNumber;
+    private String name;
+    private String product;
+    private String notes;
 
     @DBRef
     private Customers connectedCustomer;

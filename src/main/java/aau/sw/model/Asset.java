@@ -23,6 +23,8 @@ public class Asset implements Auditable {
     private Status status;
     private String description;
 
+    private Date lastInvoiced;
+
     @DBRef
     private Image profilePicture;
 
@@ -138,5 +140,14 @@ public class Asset implements Auditable {
     public void setProfilePicture(Image profilePicture) {
         this.profilePicture = profilePicture;
     }
+
+    public Date getLastInvoiced() {
+        return lastInvoiced;
+    }
+
+    public void setLastInvoiced(Date lastInvoiced) {
+        this.lastInvoiced = lastInvoiced;
+    }
+
 
 }
