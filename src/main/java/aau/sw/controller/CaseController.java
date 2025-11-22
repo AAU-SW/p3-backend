@@ -73,12 +73,16 @@ public class CaseController {
 
     @PutMapping("/{id}")
     @LogExecution("Updated case: ")
-    public String updateCase(@PathVariable String id, @RequestBody String name) {
+    public String updateCase(@PathVariable String id, @RequestBody Case updatedCase) {
         var entity = caseRepository.findById(id).orElse(null);
         if (entity == null) {
             return "Case not found";
         }
-        entity.setDescription(name);
+        entity.setDescription(updatedCase.getDescription());
+        entity.setTitle(updatedCase.getTitle());
+        entity.setStatus(updatedCase.getStatus());
+        entity.setLocation(updatedCase.getLocation());
+        entity.setAssignedTo(updatedCase.getAssignedTo());
         caseRepository.save(entity);
         return "Case updated";
     }
