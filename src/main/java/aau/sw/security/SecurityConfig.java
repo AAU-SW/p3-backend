@@ -32,14 +32,13 @@ public class SecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwt) throws Exception {
+  SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwt, CustomAuthEntryPoint customAuthEntryPoint, CorsConfigurationSource corsConfigurationSource) throws Exception {
     return http
-        .cors(c -> {
-        })
+        .cors(c -> c.configurationSource(corsConfigurationSource))
         .csrf(csrf -> csrf.disable())
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(ex -> ex
-            .authenticationEntryPoint((req, res, e) -> res.sendError(401))
+            .authenticationEntryPoint(customAuthEntryPoint)
             .accessDeniedHandler((req, res, e) -> res.sendError(403)))
         .authorizeHttpRequests(reg -> reg
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
