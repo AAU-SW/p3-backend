@@ -26,6 +26,8 @@ public class Case implements Auditable {
     private String location;
     private List<Comment> comments = new ArrayList<>();
 
+    private Date dueDate;
+
     @DBRef
     private User assignedTo;
 
@@ -147,5 +149,13 @@ public class Case implements Auditable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }

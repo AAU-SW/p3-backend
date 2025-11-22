@@ -83,6 +83,7 @@ public class CaseController {
         entity.setStatus(updatedCase.getStatus());
         entity.setLocation(updatedCase.getLocation());
         entity.setAssignedTo(updatedCase.getAssignedTo());
+        entity.setDueDate(updatedCase.getDueDate());
         caseRepository.save(entity);
         return "Case updated";
     }
