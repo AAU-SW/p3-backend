@@ -6,10 +6,19 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import aau.sw.dto.AssetDto;
+
 import java.util.Date;
 
 @Document(collection = "assets")
 public class Asset implements Auditable {
+    public Asset(AssetDto assetDto) {
+        this.name = assetDto.name();
+        this.registrationNumber = assetDto.registrationNumber();
+        this.status = assetDto.status();
+        this.profilePicture = assetDto.profilePicture();
+        this.orderRef = assetDto.orderRef();
+    }
 
     public enum Status {
         ACTIVE,
