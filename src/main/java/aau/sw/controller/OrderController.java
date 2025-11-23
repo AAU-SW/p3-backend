@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import aau.sw.aspect.LogExecution;
 import aau.sw.model.Order;
+import aau.sw.repository.AssetRepository;
 import aau.sw.repository.OrderRepository;
 import aau.sw.service.OrderService;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -29,7 +32,8 @@ public class OrderController {
 
     @Autowired
     private OrderRepository orderRepository;
-
+    @Autowired
+    private AssetRepository assetRepository;
 
     @PostMapping
     @LogExecution("Created new Order")
@@ -52,6 +56,37 @@ public class OrderController {
                 .map(order -> ResponseEntity.ok().body(order))
                 .orElse(ResponseEntity.notFound().build());
     }
-    
-    
+
+    @PutMapping("/{id}")
+    @LogExecution("Updated order: ")
+    public ResponseEntity<Order> updateOrder(@PathVariable String id, @RequestBody Order updatedOrder) {
+        return orderRepository.findById(id)
+                .map(order -> {
+                    order.setConnectedCustomer(updatedOrder.getConnectedCustomer());
+                    order.setName(updatedOrder.getName());
+                    order.setNotes(updatedOrder.getNotes());
+                    order.setProduct(updatedOrder.getProduct());
+                    order.setOrderNumber(updatedOrder.getOrderNumber());
+                    orderRepository.save(order);
+                    return ResponseEntity.ok(order);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    @LogExecution("Deleted order")
+    public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
+        if (!orderRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        assetRepository.findByOrderRef_Id(id)
+                .forEach(asset -> {
+                    asset.setOrderRef(null);
+                    assetRepository.save(asset);
+                });
+        orderRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
