@@ -68,12 +68,16 @@ public class AuthController {
     }
 
     try {
+      jwt.validateRefreshToken(refreshToken);
       String email = jwt.subject(refreshToken);
       String newAccess = jwt.issue(email);
       return ResponseEntity.ok(Map.of("accessToken", newAccess));
     } catch (ExpiredJwtException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
           .body(Map.of("error", "Refresh token expired"));
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+          .body(Map.of("error", "Invalid token type. Refresh token required."));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
           .body(Map.of("error", "Invalid refresh token"));

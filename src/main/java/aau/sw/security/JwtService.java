@@ -1,6 +1,7 @@
 package aau.sw.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -61,16 +62,36 @@ public class JwtService {
         .getPayload();
   }
 
+  private Claims getClaimsUnsafe(String token) {
+    try {
+      return getClaims(token);
+    } catch (ExpiredJwtException e) {
+      return e.getClaims();
+    }
+  }
+
   public boolean isRefreshToken(String token) {
-    Claims claims = getClaims(token);
-    String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
-    return REFRESH_TOKEN_TYPE.equals(tokenType);
+    try {
+      Claims claims = getClaims(token);
+      String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
+      return REFRESH_TOKEN_TYPE.equals(tokenType);
+    } catch (ExpiredJwtException e) {
+      Claims claims = e.getClaims();
+      String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
+      return REFRESH_TOKEN_TYPE.equals(tokenType);
+    }
   }
 
   public boolean isAccessToken(String token) {
-    Claims claims = getClaims(token);
-    String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
-    return ACCESS_TOKEN_TYPE.equals(tokenType);
+    try {
+      Claims claims = getClaims(token);
+      String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
+      return ACCESS_TOKEN_TYPE.equals(tokenType);
+    } catch (ExpiredJwtException e) {
+      Claims claims = e.getClaims();
+      String tokenType = claims.get(TOKEN_TYPE_CLAIM, String.class);
+      return ACCESS_TOKEN_TYPE.equals(tokenType);
+    }
   }
 
   public void validateRefreshToken(String token) {
