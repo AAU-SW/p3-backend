@@ -3,8 +3,10 @@ package aau.sw.controller;
 import aau.sw.security.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.Valid;
+import aau.sw.aspect.LogExecution;
 import aau.sw.dto.LoginReq;
 import aau.sw.dto.RegisterReq;
+import aau.sw.dto.UserDto;
 import aau.sw.model.User;
 import aau.sw.repository.UserRepository;
 
@@ -32,6 +34,7 @@ public class AuthController {
   }
 
   @PostMapping("/register")
+  @LogExecution("Registered new user: ")
   public ResponseEntity<?> register(@Valid @RequestBody RegisterReq req) {
     if (users.findByEmail(req.email()).isPresent()) {
       return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -44,8 +47,9 @@ public class AuthController {
     u.setName(req.name().trim());
     u.setRole("admin");
     users.save(u);
+    UserDto dto = new UserDto(u.getId(), u.getEmail(), u.getName(), u.getRole());
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(Map.of("message", "User registered successfully"));
+        .body(dto);
   }
 
   @PostMapping("/login")

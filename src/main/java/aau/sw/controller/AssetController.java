@@ -107,6 +107,7 @@ public class AssetController {
                     asset.setDescription(updatedAsset.getDescription());
                     asset.setStatus(updatedAsset.getStatus());
                     asset.setRegistrationNumber(updatedAsset.getRegistrationNumber());
+                    asset.setLastInvoiced(updatedAsset.getLastInvoiced());
                     assetRepository.save(asset);
                     return ResponseEntity.ok(asset);
                 })
