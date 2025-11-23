@@ -91,9 +91,6 @@ public class AssetController {
     @LogExecution("Fetched asset by order ID")
     public ResponseEntity<List<Asset>> getAssetByOrderId(@PathVariable String id) {
         List<Asset> assets = assetRepository.findByOrderRef_Id(id);
-        if (assets.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(assets);
     }
 
