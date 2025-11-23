@@ -76,6 +76,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
 
     } catch (MalformedJwtException ex) {
       String message = "Token is malformed";
@@ -86,6 +87,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
 
     } catch (SignatureException ex) {
       String message = "Token signature is invalid";
@@ -96,6 +98,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
 
     } catch (UnsupportedJwtException ex) {
       String message = "Token format is not supported";
@@ -106,6 +109,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
 
     } catch (IllegalArgumentException ex) {
       String message = "Token claims are invalid";
@@ -116,6 +120,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
 
     } catch (UsernameNotFoundException ex) {
       String message = "User not found";
@@ -123,6 +128,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
 
     } catch (Exception ex) {
       String message = "Authentication failed";
@@ -131,6 +137,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       SecurityContextHolder.clearContext();
       customAuthEntryPoint.commence(req, res, new AuthenticationException(message, ex) {
       });
+      return;
     }
   }
 }

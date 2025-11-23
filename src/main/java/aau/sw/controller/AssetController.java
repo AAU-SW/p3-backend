@@ -105,6 +105,7 @@ public class AssetController {
                 .map(asset -> {
                     asset.setName(updatedAsset.getName());
                     asset.setDescription(updatedAsset.getDescription());
+                    asset.setOrderRef(updatedAsset.getOrderRef());
                     asset.setStatus(updatedAsset.getStatus());
                     asset.setRegistrationNumber(updatedAsset.getRegistrationNumber());
                     asset.setLastInvoiced(updatedAsset.getLastInvoiced());
