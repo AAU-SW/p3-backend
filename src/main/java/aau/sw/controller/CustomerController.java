@@ -1,7 +1,7 @@
 package aau.sw.controller;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,60 +12,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import aau.sw.aspect.LogExecution;
-import aau.sw.model.Customers;
-import aau.sw.repository.CustomerRepository;
+import aau.sw.model.Customer;
+import aau.sw.service.ICustomerService;
 
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final ICustomerService customerService;
 
-    // create customer
+    CustomerController(ICustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     @PostMapping
-    @LogExecution("Creating a new customer")
-    public Customers createCustomer(@RequestBody Customers newCustomer) {
-        return customerRepository.save(newCustomer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
+        return new ResponseEntity<>(
+                customerService.createCustomer(newCustomer),
+                HttpStatus.CREATED
+        );
     }
 
-    // read all customers
     @GetMapping
-    @LogExecution("Fetching all customers")
-    public List<Customers> getCustomers(){
-        return customerRepository.findAll();
+    public ResponseEntity<List<Customer>> getCustomers() {
+        return ResponseEntity.ok(customerService.getCustomers());
     }
 
-    // read customer by id
     @GetMapping("/{id}")
-    @LogExecution("Fetching customer by ID: ")
-    public ResponseEntity<Customers> getCustomerById(@PathVariable String id) {
-        return customerRepository.findById(id)
-                .map(customer -> ResponseEntity.ok().body(customer))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Customer> getCustomerById(@PathVariable String id) {
+        var customer = customerService.getCustomerById(id);
+        if (customer != null) {
+            return ResponseEntity.ok(customer);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // update customer by id
     @PutMapping("/{id}")
-    @LogExecution("Updating customer by ID: ")
-    public ResponseEntity<Customers> updateCustomer(@PathVariable String id, @RequestBody Customers updatedCustomer) {
-        if (!customerRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Customer> updateCustomer(
+            @PathVariable String id,
+            @RequestBody Customer updatedCustomer) {
+        var customer = customerService.updateCustomer(id, updatedCustomer);
+        if (customer != null) {
+            return ResponseEntity.ok(customer);
         }
-        updatedCustomer.setId(id);
-        customerRepository.save(updatedCustomer);
-        return ResponseEntity.ok().body(updatedCustomer);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // delete customer by id
     @DeleteMapping("/{id}")
-    @LogExecution("Deleting customer by ID: ")
     public ResponseEntity<Void> deleteCustomer(@PathVariable String id) {
-        if (!customerRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+        var success = customerService.deleteCustomer(id);
+        if (success) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        customerRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
