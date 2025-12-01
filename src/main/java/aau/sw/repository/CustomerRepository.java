@@ -1,8 +1,10 @@
 package aau.sw.repository;
 
-import aau.sw.model.Customers;
+import aau.sw.model.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerRepository extends MongoRepository<Customers, String> {
-    
+@Repository
+public interface CustomerRepository extends MongoRepository<Customer, String> {
+
 }
