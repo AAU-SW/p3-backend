@@ -47,6 +47,9 @@ public class AssetService {
     }
 
     public Asset createAssetWithImage(Asset asset, MultipartFile imageFile) throws IOException {
+        if (imageFile == null || imageFile.isEmpty()) {
+            throw new IllegalArgumentException("Image file must not be null or empty");
+        }
         auditableService.setCreatedBy(asset);
         if (asset.getOrderRef() != null && asset.getOrderRef().getId() != null) {
             String orderId = asset.getOrderRef().getId();
