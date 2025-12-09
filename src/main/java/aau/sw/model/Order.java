@@ -15,7 +15,7 @@ public class Order implements Auditable {
     private String notes;
 
     @DBRef
-    private Customers connectedCustomer;
+    private Customer connectedCustomer;
 
     @DBRef
     private User createdBy;
@@ -23,7 +23,7 @@ public class Order implements Auditable {
     public Order(){
     }
 
-    public Order(String orderNumber, Customers connectedCustomer ){
+    public Order(String orderNumber, Customer connectedCustomer ){
         this.orderNumber = orderNumber;
         this.connectedCustomer = connectedCustomer;
     }
@@ -68,11 +68,11 @@ public class Order implements Auditable {
         this.notes = notes;
     }
 
-    public Customers getConnectedCustomer() {
+    public Customer getConnectedCustomer() {
         return connectedCustomer;
     }
 
-    public void setConnectedCustomer(Customers connectedCustomer) {
+    public void setConnectedCustomer(Customer connectedCustomer) {
         this.connectedCustomer = connectedCustomer;
     }
 
