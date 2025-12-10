@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +30,6 @@ public class UserController {
 
     public UserController(UserService svc) {
         this.svc = svc;
-    }
-
-    @PostMapping
-    @LogExecution("Creating a new user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        var saved = userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping
@@ -89,7 +81,7 @@ public class UserController {
             });
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();            
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

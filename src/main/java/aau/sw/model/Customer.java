@@ -2,12 +2,12 @@ package aau.sw.model;
 
 import org.springframework.data.annotation.Id;
 
-public class Customers {
+public class Customer {
     @Id
     private String id;
     private String name;
 
-    public Customers(String name) {
+    public Customer(String name) {
         this.name = name;
     }
 
