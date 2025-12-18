@@ -1,5 +1,6 @@
 package aau.sw.model;
 
+import java.util.Date;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import aau.sw.dto.AssetDto;
 
-import java.util.Date;
 
 @Document(collection = "assets")
 public class Asset implements Auditable {
@@ -60,6 +60,10 @@ public class Asset implements Auditable {
         this.description = description;
         this.registrationNumber = registrationNumber;
         this.profilePicture = profilePicture;
+    }
+
+    public void close() {
+      this.status = Status.CLOSED;
     }
 
     public String getId() {
@@ -126,10 +130,12 @@ public class Asset implements Auditable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
     public User getCreatedBy() {
         return createdBy;
     }
 
+    @Override
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }

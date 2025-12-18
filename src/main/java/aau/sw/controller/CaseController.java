@@ -141,11 +141,10 @@ public class CaseController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(uploadedImage);
 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.err.println("Error uploading file to case: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to upload file: " + e.getMessage());
+                    .body("Error uploading file");
         }
     }
 

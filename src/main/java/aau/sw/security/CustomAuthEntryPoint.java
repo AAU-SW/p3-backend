@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class CustomAuthEntryPoint implements AuthenticationEntryPoint  {
 
-    private static final org.slf4j.Logger log = 
+    private static final org.slf4j.Logger log =
     org.slf4j.LoggerFactory.getLogger(CustomAuthEntryPoint.class);
 
     private static final List<String> ALLOWED_ORIGINS = List.of(
@@ -21,10 +21,10 @@ public class CustomAuthEntryPoint implements AuthenticationEntryPoint  {
     );
 
     @Override
-    public void commence(HttpServletRequest request, 
-                         HttpServletResponse response, 
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-    
+
     log.warn("Auth error: {}", authException.getMessage());
 
     // Add CORS headers to ensure the response reaches the frontend
@@ -45,9 +45,9 @@ public class CustomAuthEntryPoint implements AuthenticationEntryPoint  {
               "error": "Unauthorized",
               "message": "%s"
             }
-            """.formatted(authException.getMessage());
+            """.formatted("Error logging in");
 
     response.getWriter().write(json);
     response.getWriter().flush();
-    }    
+    }
 }

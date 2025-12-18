@@ -11,7 +11,7 @@ import java.util.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-  
+
   private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
    @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleBadRequest(IllegalArgumentException ex) {
         return ResponseEntity.badRequest()
-                .body(Map.of("error", ex.getMessage()));
+                .body(Map.of("error", "An error occured"));
     }
 
     // Optional: Catch all other exceptions

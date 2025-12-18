@@ -67,7 +67,7 @@ public class AssetController {
       return ResponseEntity.status(HttpStatus.CREATED).body(savedAsset);
     } catch (IOException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-        e.getMessage()
+        "Error creating asset"
       );
     }
   }
