@@ -31,7 +31,7 @@ public class FileController {
         } catch (S3Exception | IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to upload file: " + e.getMessage());
+                    .body("Error uploading file");
         }
     }
 
@@ -46,7 +46,7 @@ public class FileController {
             return ResponseEntity.ok(fileUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Failed to generate URL: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error generating file URL");
         }
     }
 
